@@ -13,6 +13,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -30,6 +31,8 @@ public:
     QAction *mnuExit;
     QWidget *centralwidget;
     QTableWidget *twSpots;
+    QLabel *timeLabel;
+    QLabel *movesLabel;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -38,7 +41,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(282, 322);
+        MainWindow->resize(282, 345);
         mnuNewGame = new QAction(MainWindow);
         mnuNewGame->setObjectName(QString::fromUtf8("mnuNewGame"));
         mnuRestart = new QAction(MainWindow);
@@ -60,6 +63,16 @@ public:
         twSpots->setColumnCount(4);
         twSpots->horizontalHeader()->setVisible(false);
         twSpots->verticalHeader()->setVisible(false);
+        timeLabel = new QLabel(centralwidget);
+        timeLabel->setObjectName(QString::fromUtf8("timeLabel"));
+        timeLabel->setGeometry(QRect(0, 280, 65, 20));
+        QFont font;
+        font.setBold(true);
+        timeLabel->setFont(font);
+        movesLabel = new QLabel(centralwidget);
+        movesLabel->setObjectName(QString::fromUtf8("movesLabel"));
+        movesLabel->setGeometry(QRect(200, 280, 81, 20));
+        movesLabel->setFont(font);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -87,6 +100,8 @@ public:
         mnuNewGame->setText(QCoreApplication::translate("MainWindow", "\320\235\320\276\320\262\320\260\321\217 \320\270\320\263\321\200\320\260", nullptr));
         mnuRestart->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\262\321\202\320\276\321\200\320\270\321\202\321\214 \320\270\320\263\321\200\321\203", nullptr));
         mnuExit->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", nullptr));
+        timeLabel->setText(QString());
+        movesLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\320\230\320\263\321\200\320\260", nullptr));
     } // retranslateUi
 

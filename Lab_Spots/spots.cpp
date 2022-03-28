@@ -63,33 +63,33 @@ bool Spots::isFinished()
     return true;
 }
 
-void Spots::move(int r, int c)
+bool Spots::move(int r, int c)
 {
-    int a;
     if (r!=0 && table[r-1][c]==15)
     {
         table[r-1][c] = table[r][c];
         table[r][c] = 15;
-        return;
+        return true;
     }
     if (r!=3 && table[r+1][c]==15)
     {
         table[r+1][c] = table[r][c];
         table[r][c] = 15;
-        return;
+        return true;
     }
     if (c!=0 &&table[r][c-1]==15)
     {
         table[r][c-1] = table[r][c];
         table[r][c] = 15;
-        return;
+        return true;
     }
     if (c!=3 &&table[r][c+1]==15)
     {
         table[r][c+1] = table[r][c];
         table[r][c] = 15;
-        return;
+        return true;
     }
+    return false;
 }
 
 int Spots::getItem(int i, int j) const

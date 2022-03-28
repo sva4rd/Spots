@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTableWidgetItem>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,10 +26,17 @@ private slots:
 
     void on_mnuExit_triggered();
 
+    void TimerSlot();
+
+    void MovesSlot();
+
 private:
     Ui::MainWindow *ui;
     QTableWidgetItem *item[16];
     QPixmap px[16];
     void showTable();
+    QTimer *timer;
+    int min, sec;
+    int moves_number;
 };
 #endif // MAINWINDOW_H

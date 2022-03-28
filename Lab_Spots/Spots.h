@@ -8,7 +8,7 @@ public:
     void startGame();
     void restartGame();
     bool isFinished();
-    void move(int r, int c);
+    bool move(int r, int c);
     int getItem(int i, int j) const;
 private:
     int table[4][4];

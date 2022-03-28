@@ -10,6 +10,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    sec=0;
+    min=0;
+    timer = new QTimer(this);
+    connect (timer, SIGNAL(timeout()), this, SLOT(TimerSlot()));
+    ui->timeLabel->setText("Время " + QString::number(min) + ":" + QString::number(sec));
+    timer->start(1000);
+    moves_number = 0;
     for (auto i = 0; i < 4; i++)
     {
         ui->twSpots->setColumnWidth(i, 70);
@@ -57,13 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
             item[i]=new QTableWidgetItem;
             item[i]->setData(Qt::DecorationRole, px[i]);
         }
+    MovesSlot();
     showTable();
 }
 
 void MainWindow::showTable()
 {
 
-    for (auto i = 0, z = 0; i < 4; i++)
+    for (auto i = 0; i < 4; i++)
         for (auto j = 0; j < 4; j++)
             ui->twSpots->setItem(i, j, new QTableWidgetItem(*item[object.getItem(i, j)]));
 }
@@ -76,15 +84,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_twSpots_cellClicked(int row, int column)
 {
-    object.move(row, column);
+    if(object.move(row, column))
+    {
+        moves_number++;
+    }
+    MovesSlot();
     showTable();
     if(object.isFinished())
     {
-        if(QMessageBox::question(this, "Вы победили!", "Желаете сыграть ещё раз?",
+        if(QMessageBox::question(this, "Вы победили!", "Прошло " + QString::number(min) + " мин. "
+                                 + QString::number(sec) + " сек., совершено ходов: " +
+                                 QString::number(moves_number) + ". Желаете сыграть ещё раз?",
                               QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
             QApplication::quit();
         else
         {
+            moves_number=0;
+            MovesSlot();
+            min=0;
+            sec=0;
             object.startGame();
             showTable();
         }
@@ -94,6 +112,10 @@ void MainWindow::on_twSpots_cellClicked(int row, int column)
 
 void MainWindow::on_mnuNewGame_triggered()
 {
+    moves_number=0;
+    MovesSlot();
+    min=0;
+    sec=0;
     object.startGame();
     showTable();
 }
@@ -102,6 +124,10 @@ void MainWindow::on_mnuNewGame_triggered()
 
 void MainWindow::on_mnuRestart_triggered()
 {
+    moves_number=0;
+    MovesSlot();
+    min=0;
+    sec=0;
     object.restartGame();
     showTable();
 }
@@ -110,5 +136,21 @@ void MainWindow::on_mnuRestart_triggered()
 void MainWindow::on_mnuExit_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::TimerSlot()
+{
+    sec++;
+    if(sec>=60)
+    {
+        sec=0;
+        min++;
+    }
+    ui->timeLabel->setText("Время " + QString::number(min) + ":" + QString::number(sec));
+}
+
+void MainWindow::MovesSlot()
+{
+    ui->movesLabel->setText("Ходы: " + QString::number(moves_number));
 }
 
