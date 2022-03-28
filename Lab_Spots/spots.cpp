@@ -68,30 +68,26 @@ void Spots::move(int r, int c)
     int a;
     if (r!=0 && table[r-1][c]==15)
     {
-        a = table[r][c];
-        table[r][c] = table[r-1][c];
-        table[r-1][c] = a;
+        table[r-1][c] = table[r][c];
+        table[r][c] = 15;
         return;
     }
     if (r!=3 && table[r+1][c]==15)
     {
-        a = table[r][c];
-        table[r][c] = table[r+1][c];
-        table[r+1][c] = a;
+        table[r+1][c] = table[r][c];
+        table[r][c] = 15;
         return;
     }
     if (c!=0 &&table[r][c-1]==15)
     {
-        a = table[r][c];
-        table[r][c] = table[r][c-1];
-        table[r][c-1] = a;
+        table[r][c-1] = table[r][c];
+        table[r][c] = 15;
         return;
     }
     if (c!=3 &&table[r][c+1]==15)
     {
-        a = table[r][c];
-        table[r][c] = table[r][c+1];
-        table[r][c+1] = a;
+        table[r][c+1] = table[r][c];
+        table[r][c] = 15;
         return;
     }
 }
